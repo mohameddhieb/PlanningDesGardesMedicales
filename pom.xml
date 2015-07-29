@@ -5,8 +5,10 @@
 	<artifactId>gardesmedicales</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<description>Application desktop de gestion des gardes médicales</description>
+	
+	<packaging>jar</packaging>
+	
 	<build>
-		<sourceDirectory>src</sourceDirectory>
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
