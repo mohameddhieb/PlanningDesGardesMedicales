@@ -9,26 +9,23 @@ import javax.swing.table.TableCellRenderer;
 
 public class AfficherBouton extends JButton implements TableCellRenderer {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	public AfficherBouton() {
-	    setOpaque(true);
-	  }
+		setOpaque(true);
+	}
 
 	@Override
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-		  if (isSelected) {
-		      setForeground(table.getSelectionForeground());
-		      setBackground(table.getSelectionBackground());
-		      setForeground(table.getForeground());
-		      setBackground(UIManager.getColor("Button.background"));
-		    }
-		    setText((value == null) ? "saisir disponibilité" : value.toString());
-		    return this;
-		  
+		if (isSelected) {
+			setForeground(table.getSelectionForeground());
+			setBackground(table.getSelectionBackground());
+			setForeground(table.getForeground());
+			setBackground(UIManager.getColor("Button.background"));
+		}
+		setText((value == null) ? "saisir disponibilité" : value.toString());
+		return this;
+
 	}
 
 }

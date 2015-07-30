@@ -9,17 +9,14 @@ import com.itextpdf.text.pdf.PdfWriter;
 import com.sifast.stage.ihm.AjouterPlanning;
 import com.sifast.stage.ihm.MembresDeGarde;
 
-
-
 public class PdfClass {
 	public static void main(String arg[]) throws Exception {
-		
-		
+
 		Document document = new Document();
 
 		PdfWriter.getInstance(document, new FileOutputStream("planning.pdf"));
 		document.open();
-		
+
 		document.add(new Paragraph("Planning des Gardes Medicales"));
 		document.add(new Paragraph(AjouterPlanning.plan.getNomPlanning()));
 		document.add(new Paragraph("du " + String.format("%1$td/%1$tm/%1$tY", AjouterPlanning.plan.getDateDebut().getDate()) + " au "
@@ -27,9 +24,7 @@ public class PdfClass {
 		document.add(new Paragraph("\n"));
 		document.add(new Paragraph("\n"));
 		document.add(new Paragraph("\n"));
-		
-		
-		
+
 		Boolean test2 = true;
 		int indice = 0;
 		for (Object elem1 : MembresDeGarde.dates) {
@@ -40,7 +35,8 @@ public class PdfClass {
 																	// vide=
 																	// dispo
 				{
-					document.add(new Paragraph("Le " + elem1 + ", le docteur:  " + MembresDeGarde.docteurs.get(indice % MembresDeGarde.docteurs.size()).getNom() + " en garde "));
+					document.add(new Paragraph(
+							"Le " + elem1 + ", le docteur:  " + MembresDeGarde.docteurs.get(indice % MembresDeGarde.docteurs.size()).getNom() + " en garde "));
 					indice++;
 					break;
 				}
@@ -60,7 +56,8 @@ public class PdfClass {
 						}
 					}
 					if (!test) {
-						document.add(new Paragraph("Le " + elem1 + ", le docteur: " + MembresDeGarde.docteurs.get(indice % MembresDeGarde.docteurs.size()).getNom() + " en garde "));
+						document.add(new Paragraph(
+								"Le " + elem1 + ", le docteur: " + MembresDeGarde.docteurs.get(indice % MembresDeGarde.docteurs.size()).getNom() + " en garde "));
 						indice++;
 						break;
 					}
@@ -68,19 +65,15 @@ public class PdfClass {
 				}
 			}
 		}
-	
+
 		document.close();
 
 		try {
 
 			// TODO use relative path instead of absolut path
-			if ((new File(
-					"d:\\Projets\\PlanningDesGardesMedicales\\planning.pdf"))
-					.exists()) {
+			if ((new File("d:\\Projets\\PlanningDesGardesMedicales\\planning.pdf")).exists()) {
 
-				Process p = Runtime
-						.getRuntime()
-						.exec("rundll32 url.dll,FileProtocolHandler d:\\Projets\\PlanningDesGardesMedicales\\planning.pdf");
+				Process p = Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler d:\\Projets\\PlanningDesGardesMedicales\\planning.pdf");
 				p.waitFor();
 
 			} else {

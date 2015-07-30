@@ -102,33 +102,31 @@ public class AjouterPlanning extends JFrame {
 
 		butAjouter.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-		
 
-				if ((textField.getText().isEmpty()) || (dateD.getDate()==null) || (dateF.getDate()==null)) {
-					JOptionPane.showMessageDialog(null, "Un ou plusieurs champs sont vide\n \n                  Svp réssayez", "Erreur",
-							JOptionPane.ERROR_MESSAGE);
+				if ((textField.getText().isEmpty()) || (dateD.getDate() == null) || (dateF.getDate() == null)) {
+					JOptionPane.showMessageDialog(null, "Un ou plusieurs champs sont vide\n \n                  Svp réssayez", "Erreur", JOptionPane.ERROR_MESSAGE);
 
 				}
 
-				else
-				{	if ((!(textField.getText().isEmpty())) && (!(dateD.getDate()==null)) && (!(dateD.getDate()==null))
-						&& (dateD.getDate().getTime() < dateF.getDate().getTime())) {
+				else {
+					if ((!(textField.getText().isEmpty())) && (!(dateD.getDate() == null)) && (!(dateD.getDate() == null))
+							&& (dateD.getDate().getTime() < dateF.getDate().getTime())) {
 
-					plan.setDateDebut(dateD);
-					plan.setDateFin(dateF);
-					plan.setNomPlanning(textField.getText().toString());
-					
-					MembresDeGarde frame = new MembresDeGarde();
-					frame.setSize(600, 600);
-					frame.setLocationRelativeTo(null);
-					frame.setTitle("Membres de garde");
-					frame.setVisible(true);
-				} else {
-					JOptionPane.showMessageDialog(null, "La date de fin doit etre situé aprés la date début\n \n                  Svp réssayez", "Erreur",
-							JOptionPane.ERROR_MESSAGE);
+						plan.setDateDebut(dateD);
+						plan.setDateFin(dateF);
+						plan.setNomPlanning(textField.getText().toString());
 
-				}}
+						MembresDeGarde frame = new MembresDeGarde();
+						frame.setSize(600, 600);
+						frame.setLocationRelativeTo(null);
+						frame.setTitle("Membres de garde");
+						frame.setVisible(true);
+					} else {
+						JOptionPane.showMessageDialog(null, "La date de fin doit etre situé aprés la date début\n \n                  Svp réssayez", "Erreur",
+								JOptionPane.ERROR_MESSAGE);
+
+					}
+				}
 			}
 
 		});

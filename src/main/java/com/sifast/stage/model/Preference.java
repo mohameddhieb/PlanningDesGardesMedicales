@@ -32,7 +32,5 @@ public class Preference {
 	public void setPrefenum(PrefEnum prefenum) {
 		this.prefenum = prefenum;
 	}
-	
-	
-	
+
 }

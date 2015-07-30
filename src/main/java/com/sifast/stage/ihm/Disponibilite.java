@@ -84,36 +84,36 @@ public class Disponibilite extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				row[0] = String.format("%1$td/%1$tm/%1$tY", dateDispo.getDate());
 
-				 if (rbDispoBut.isSelected()) {
+				if (rbDispoBut.isSelected()) {
 					row[1] = PrefEnum.dispo_but;
 				} else if (rbNotDispo.isSelected()) {
 					row[1] = PrefEnum.not_dispo;
 				}
 				model.addRow(row);
-			
-				preference.put(String.format("%1$td/%1$tm/%1$tY", dateDispo.getDate()),(PrefEnum)row[1]);
+
+				preference.put(String.format("%1$td/%1$tm/%1$tY", dateDispo.getDate()), (PrefEnum) row[1]);
 
 			}
 		});
-		
+
 		// boutton supprimer
 
-				JButton btnSupprimerMembre = new JButton("Supprimer");
-				btnSupprimerMembre.setBounds(294, 210, 95, 23);
-				contentPane.add(btnSupprimerMembre);
+		JButton btnSupprimerMembre = new JButton("Supprimer");
+		btnSupprimerMembre.setBounds(294, 210, 95, 23);
+		contentPane.add(btnSupprimerMembre);
 
-				btnSupprimerMembre.addActionListener(new ActionListener() {
+		btnSupprimerMembre.addActionListener(new ActionListener() {
 
-					public void actionPerformed(ActionEvent e) {
+			public void actionPerformed(ActionEvent e) {
 
-						int indice = table1.getSelectedRow();
-						if (indice >= 0) {
-							model.removeRow(indice);
-						} else {
-							System.out.println("Delete Error");
-						}
-					}
-				});
+				int indice = table1.getSelectedRow();
+				if (indice >= 0) {
+					model.removeRow(indice);
+				} else {
+					System.out.println("Delete Error");
+				}
+			}
+		});
 
 		// bouton valider
 
@@ -132,7 +132,5 @@ public class Disponibilite extends JFrame {
 	}
 
 	// preference set,get
-
-	
 
 }

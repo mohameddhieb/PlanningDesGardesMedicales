@@ -125,7 +125,7 @@ public class MembresDeGarde extends JFrame {
 			}
 		});
 
-		// bouton Planning  (contient l'algorithme du planning)
+		// bouton Planning (contient l'algorithme du planning)
 
 		JButton btnPlanning = new JButton("Planning");
 		contentPane.add(btnPlanning);
@@ -148,21 +148,21 @@ public class MembresDeGarde extends JFrame {
 					dates.add(String.format("%1$td/%1$tm/%1$tY", calendar));
 
 				}
-				if (table.getValueAt(0, 0)==null) 
-					JOptionPane.showMessageDialog(null, "Ajouter au moins un membre \n \n                  Svp réssayez", "Erreur",
-							JOptionPane.ERROR_MESSAGE);
-				else{ 
-				
-				// ajout des docteurs dans une liste docteurs
-				for (int i = 0; i < table.getRowCount(); i++) {
-					docteurs.get(i).setNom(table.getValueAt(i, 0).toString());
+				if (table.getValueAt(0, 0) == null)
+					JOptionPane.showMessageDialog(null, "Ajouter au moins un membre \n \n                  Svp réssayez", "Erreur", JOptionPane.ERROR_MESSAGE);
+				else {
+
+					// ajout des docteurs dans une liste docteurs
+					for (int i = 0; i < table.getRowCount(); i++) {
+						docteurs.get(i).setNom(table.getValueAt(i, 0).toString());
+					}
+
+					try {
+						PdfClass.main(arg);
+					} catch (Exception ex) {
+						Logger.getLogger(MembresDeGarde.class.getName()).log(Level.SEVERE, null, ex);
+					}
 				}
-				
-				try {
-					PdfClass.main(arg);
-				} catch (Exception ex) {
-					Logger.getLogger(MembresDeGarde.class.getName()).log(Level.SEVERE, null, ex);
-				}}
 
 			}
 		});

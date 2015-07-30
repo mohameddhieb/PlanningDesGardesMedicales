@@ -9,7 +9,7 @@ public class PlanningGarde {
 	JDateChooser DateFin;
 
 	// Constructeurs
-	
+
 	public PlanningGarde() {
 	}
 
@@ -20,7 +20,7 @@ public class PlanningGarde {
 	}
 
 	// Methodes set,get
-	
+
 	public String getNomPlanning() {
 		return NomPlanning;
 	}
