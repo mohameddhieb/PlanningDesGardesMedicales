@@ -17,7 +17,6 @@ public class AfficherDisponibilité extends DefaultCellEditor {
 
 	protected JButton button;
 	private String label;
-
 	private boolean isPushed;
 
 	public AfficherDisponibilité(JCheckBox checkBox) {
@@ -50,7 +49,7 @@ public class AfficherDisponibilité extends DefaultCellEditor {
 
 		if (isPushed) {
 			Disponibilite frame = new Disponibilite();
-
+			frame.setTitle("Disponibilité");
 			frame.setVisible(true);
 			frame.setLocationRelativeTo(null);
 

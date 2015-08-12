@@ -7,7 +7,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -23,21 +22,21 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
-import com.sifast.stage.model.Docteur;
-import com.sifast.stage.model.PdfClass;
-import com.sifast.stage.model.PrefEnum;
+import com.sifast.stage.controller.PdfClass;
+import com.sifast.stage.controller.Service;
 
 public class MembresDeGarde extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	public static ArrayList<Docteur> docteurs = new ArrayList<Docteur>();
+
 	public static ArrayList<Object> dates = new ArrayList<Object>();
 	public static JTable table;
 	private String[] arg;
-
+	public static Service service;
 	public MembresDeGarde() {
 
+		service=new Service();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 600, 600);
 		contentPane = new JPanel();
@@ -47,15 +46,15 @@ public class MembresDeGarde extends JFrame {
 
 		// text
 
-		JTextArea textArea_1 = new JTextArea(AjouterPlanning.plan.getNomPlanning());
+		JTextArea textArea_1 = new JTextArea(Service.plan.getNomPlanning());
 		textArea_1.setBackground(Color.LIGHT_GRAY);
 		textArea_1.setBounds(213, 32, 156, 46);
 		textArea_1.setFont(new Font("Myanmar Text", Font.ITALIC, 20));
 		textArea_1.setEditable(false);
 		contentPane.add(textArea_1);
 
-		JTextArea textArea = new JTextArea("Membre de garde du " + String.format("%1$td/%1$tm/%1$tY", AjouterPlanning.plan.getDateDebut().getDate()) + " au "
-				+ String.format("%1$td/%1$tm/%1$tY", AjouterPlanning.plan.getDateFin().getDate()));
+		JTextArea textArea = new JTextArea("Membre de garde du " + String.format("%1$td/%1$tm/%1$tY", Service.plan.getDateDebut().getDate()) + " au "
+				+ String.format("%1$td/%1$tm/%1$tY", Service.plan.getDateFin().getDate()));
 		textArea.setBackground(Color.LIGHT_GRAY);
 		textArea.setFont(new Font("Myanmar Text", Font.ITALIC, 20));
 		textArea.setEditable(false);
@@ -90,9 +89,12 @@ public class MembresDeGarde extends JFrame {
 
 			public void actionPerformed(ActionEvent e) {
 				model.addRow(row);
-				Docteur docteur = new Docteur();
-				docteur.setPreference(new HashMap<String, PrefEnum>());
-				docteurs.add(docteur);
+//				Docteur docteur = new Docteur();
+//				docteur.setPreference(new HashMap<String, PrefEnum>());
+//				docteurs.add(docteur);
+				service.createDoctor();
+				
+				
 				AfficherDisponibilité bt = new AfficherDisponibilité(new JCheckBox());
 
 				TableColumn dispoColumn = table.getColumnModel().getColumn(1);
@@ -118,14 +120,14 @@ public class MembresDeGarde extends JFrame {
 				int indice = table.getSelectedRow();
 				if (indice >= 0) {
 					model.removeRow(indice);
-					docteurs.remove(indice);
+					service.deleteDoctor(indice);
 				} else {
 					System.out.println("Delete Error");
 				}
 			}
 		});
 
-		// bouton Planning (contient l'algorithme du planning)
+		// bouton Planning  (contient l'algorithme du planning)
 
 		JButton btnPlanning = new JButton("Planning");
 		contentPane.add(btnPlanning);
@@ -139,30 +141,32 @@ public class MembresDeGarde extends JFrame {
 
 				dates.clear();
 				Calendar calendar = Calendar.getInstance();
-				calendar.setTime(AjouterPlanning.plan.getDateDebut().getDate());
+				calendar.setTime(Service.plan.getDateDebut().getDate());
 				Calendar calMax = Calendar.getInstance();
-				calMax.setTime(AjouterPlanning.plan.getDateFin().getDate());
+				calMax.setTime(Service.plan.getDateFin().getDate());
 				dates.add(String.format("%1$td/%1$tm/%1$tY", calendar));
 				while (!(String.format("%1$td/%1$tm/%1$tY", calendar).equals(String.format("%1$td/%1$tm/%1$tY", calMax)))) {
 					calendar.add(Calendar.DATE, 1);
 					dates.add(String.format("%1$td/%1$tm/%1$tY", calendar));
 
 				}
-				if (table.getValueAt(0, 0) == null)
-					JOptionPane.showMessageDialog(null, "Ajouter au moins un membre \n \n                  Svp réssayez", "Erreur", JOptionPane.ERROR_MESSAGE);
-				else {
-
-					// ajout des docteurs dans une liste docteurs
-					for (int i = 0; i < table.getRowCount(); i++) {
-						docteurs.get(i).setNom(table.getValueAt(i, 0).toString());
-					}
-
-					try {
-						PdfClass.main(arg);
-					} catch (Exception ex) {
-						Logger.getLogger(MembresDeGarde.class.getName()).log(Level.SEVERE, null, ex);
-					}
-				}
+				if (table.getValueAt(0, 0)==null) 
+					JOptionPane.showMessageDialog(null, "Ajouter au moins un membre \n \n                  Svp réssayez", "Erreur",
+							JOptionPane.ERROR_MESSAGE);
+				else{ 
+				
+				// ajout des docteurs dans une liste docteurs
+//				for (int i = 0; i < table.getRowCount(); i++) {
+//					docteurs.get(i).setNom(table.getValueAt(i, 0).toString());
+//				}
+					
+					service.gererPlanning(table);
+//				
+				try {
+					PdfClass.main(arg);
+				} catch (Exception ex) {
+					Logger.getLogger(MembresDeGarde.class.getName()).log(Level.SEVERE, null, ex);
+				}}
 
 			}
 		});
