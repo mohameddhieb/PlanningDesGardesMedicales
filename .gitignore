@@ -3,4 +3,5 @@
 /.settings/
 *.classpath
 *.project
+*.planning.pdf/
 /dependency-reduced-pom.xml

@@ -21,6 +21,8 @@ public class AjouterPlanning extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField textField;
+	public static JDateChooser dateF;
+	public static JDateChooser dateD;
 
 	// classe principale
 	public static void main(String[] args) {
@@ -76,7 +78,7 @@ public class AjouterPlanning extends JFrame {
 		lblDateDeDbut.setBounds(138, 234, 110, 14);
 		contentPane.add(lblDateDeDbut);
 
-		JDateChooser dateF = new JDateChooser();
+		dateF = new JDateChooser();
 		dateF.setDateFormatString("dd-MM-yyyy");
 		dateF.setBounds(310, 287, 97, 20);
 		contentPane.add(dateF);
@@ -88,7 +90,7 @@ public class AjouterPlanning extends JFrame {
 		lblDateDeFin.setBounds(138, 287, 97, 14);
 		contentPane.add(lblDateDeFin);
 
-		JDateChooser dateD = new JDateChooser();
+		dateD = new JDateChooser();
 		dateD.setDateFormatString("dd-MM-yyyy");
 		dateD.setBounds(310, 228, 97, 20);
 		contentPane.add(dateD);
@@ -111,7 +113,7 @@ public class AjouterPlanning extends JFrame {
 				}
 
 				else
-				{	if ((!(textField.getText().isEmpty())) && (!(dateD.getDate()==null)) && (!(dateD.getDate()==null))
+				{	if ((!(textField.getText().isEmpty())) && (!(dateD.getDate()==null)) && (!(dateF.getDate()==null))
 						&& (dateD.getDate().getTime() < dateF.getDate().getTime())) {
 
 //					plan.setDateDebut(dateD);

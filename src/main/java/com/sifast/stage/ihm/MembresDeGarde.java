@@ -34,9 +34,10 @@ public class MembresDeGarde extends JFrame {
 	public static JTable table;
 	private String[] arg;
 	public static Service service;
+
 	public MembresDeGarde() {
 
-		service=new Service();
+		service = new Service();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 600, 600);
 		contentPane = new JPanel();
@@ -53,8 +54,9 @@ public class MembresDeGarde extends JFrame {
 		textArea_1.setEditable(false);
 		contentPane.add(textArea_1);
 
-		JTextArea textArea = new JTextArea("Membre de garde du " + String.format("%1$td/%1$tm/%1$tY", Service.plan.getDateDebut().getDate()) + " au "
-				+ String.format("%1$td/%1$tm/%1$tY", Service.plan.getDateFin().getDate()));
+		JTextArea textArea = new JTextArea(
+				"Membre de garde du " + String.format("%1$td/%1$tm/%1$tY", Service.plan.getDateDebut().getDate())
+						+ " au " + String.format("%1$td/%1$tm/%1$tY", Service.plan.getDateFin().getDate()));
 		textArea.setBackground(Color.LIGHT_GRAY);
 		textArea.setFont(new Font("Myanmar Text", Font.ITALIC, 20));
 		textArea.setEditable(false);
@@ -89,19 +91,16 @@ public class MembresDeGarde extends JFrame {
 
 			public void actionPerformed(ActionEvent e) {
 				model.addRow(row);
-//				Docteur docteur = new Docteur();
-//				docteur.setPreference(new HashMap<String, PrefEnum>());
-//				docteurs.add(docteur);
+				// Docteur docteur = new Docteur();
+				// docteur.setPreference(new HashMap<String, PrefEnum>());
+				// docteurs.add(docteur);
 				service.createDoctor();
-				
-				
+
 				AfficherDisponibilité bt = new AfficherDisponibilité(new JCheckBox());
-
+				// mettre le bouton saisir disponibilité à la 2 eme colonne du tableau model
 				TableColumn dispoColumn = table.getColumnModel().getColumn(1);
-
-				dispoColumn.setCellRenderer(new AfficherBouton());
+            	dispoColumn.setCellRenderer(new AfficherBouton());
 				dispoColumn.setCellEditor(bt);
-
 			}
 
 		});
@@ -127,7 +126,7 @@ public class MembresDeGarde extends JFrame {
 			}
 		});
 
-		// bouton Planning  (contient l'algorithme du planning)
+		// bouton Planning (contient l'algorithme du planning)
 
 		JButton btnPlanning = new JButton("Planning");
 		contentPane.add(btnPlanning);
@@ -145,28 +144,31 @@ public class MembresDeGarde extends JFrame {
 				Calendar calMax = Calendar.getInstance();
 				calMax.setTime(Service.plan.getDateFin().getDate());
 				dates.add(String.format("%1$td/%1$tm/%1$tY", calendar));
-				while (!(String.format("%1$td/%1$tm/%1$tY", calendar).equals(String.format("%1$td/%1$tm/%1$tY", calMax)))) {
+				while (!(String.format("%1$td/%1$tm/%1$tY", calendar)
+						.equals(String.format("%1$td/%1$tm/%1$tY", calMax)))) {
 					calendar.add(Calendar.DATE, 1);
 					dates.add(String.format("%1$td/%1$tm/%1$tY", calendar));
 
 				}
-				if (table.getValueAt(0, 0)==null) 
-					JOptionPane.showMessageDialog(null, "Ajouter au moins un membre \n \n                  Svp réssayez", "Erreur",
+				if (table.getValueAt(0, 0) == null)
+					JOptionPane.showMessageDialog(null,
+							"Ajouter au moins un membre \n \n                  Svp réssayez", "Erreur",
 							JOptionPane.ERROR_MESSAGE);
-				else{ 
-				
-				// ajout des docteurs dans une liste docteurs
-//				for (int i = 0; i < table.getRowCount(); i++) {
-//					docteurs.get(i).setNom(table.getValueAt(i, 0).toString());
-//				}
-					
+				else {
+
+					// ajout des docteurs dans une liste docteurs
+					// for (int i = 0; i < table.getRowCount(); i++) {
+					// docteurs.get(i).setNom(table.getValueAt(i,0).toString());
+					// }
+
 					service.gererPlanning(table);
-//				
-				try {
-					PdfClass.main(arg);
-				} catch (Exception ex) {
-					Logger.getLogger(MembresDeGarde.class.getName()).log(Level.SEVERE, null, ex);
-				}}
+					//
+					try {
+						PdfClass.main(arg);
+					} catch (Exception ex) {
+						Logger.getLogger(MembresDeGarde.class.getName()).log(Level.SEVERE, null, ex);
+					}
+				}
 
 			}
 		});

@@ -7,6 +7,7 @@ import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
@@ -19,27 +20,31 @@ import com.sifast.stage.model.PrefEnum;
 import com.toedter.calendar.JDateChooser;
 
 public class Disponibilite extends JFrame {
-	
+
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private ButtonGroup buttonGroup = new ButtonGroup();
-//	private HashMap<String, PrefEnum> preference = new HashMap<String, PrefEnum>();
+	private static DefaultTableModel model;
+	static JTable table1;
+	// private HashMap<String, PrefEnum> preference = new
+	// HashMap<String,PrefEnum>();
 
 	// constructeur
 
 	public Disponibilite() {
 
-//		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		// setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setTitle("Disponibilité");
 		setBounds(100, 100, 600, 600);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
 
 		// Nom docteur
 
-		JLabel lblNomDuDocteur = new JLabel(MembresDeGarde.table.getValueAt(MembresDeGarde.table.getSelectedRow(), 0).toString());
+		JLabel lblNomDuDocteur = new JLabel(
+				MembresDeGarde.table.getValueAt(MembresDeGarde.table.getSelectedRow(), 0).toString());
 		lblNomDuDocteur.setBounds(235, 33, 131, 14);
 		contentPane.add(lblNomDuDocteur);
 
@@ -63,8 +68,8 @@ public class Disponibilite extends JFrame {
 
 		Object[][] data = null;
 		String[] colomname = { "Date", "Disponibilité" };
-		DefaultTableModel model = new DefaultTableModel(data, colomname);
-		JTable table1 = new JTable(model);
+		model = new DefaultTableModel(data, colomname);
+		table1 = new JTable(model);
 		table1.setBackground(Color.LIGHT_GRAY);
 		table1.setForeground(Color.black);
 		table1.setRowHeight(30);
@@ -82,40 +87,56 @@ public class Disponibilite extends JFrame {
 		Object[] row = new Object[2];
 		btnAjouter.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				row[0] = String.format("%1$td/%1$tm/%1$tY", dateDispo.getDate());
-
-				 if (rbDispoBut.isSelected()) {
-					row[1] = PrefEnum.dispo_but;
-				} else if (rbNotDispo.isSelected()) {
-					row[1] = PrefEnum.not_dispo;
+				if (dateDispo.getDate().getTime() < (AjouterPlanning.dateD.getDate().getTime())
+						|| (dateDispo.getDate().getTime() > AjouterPlanning.dateF.getDate().getTime())) {
+					JOptionPane
+							.showMessageDialog(btnAjouter,
+									"La date doit se situer entre le  "
+											+ (String.format("%1$td/%1$tm/%1$tY",
+													AjouterPlanning.dateD.getDate().getTime()))
+											+ " et le "
+											+ (String.format("%1$td/%1$tm/%1$tY",
+													AjouterPlanning.dateF.getDate().getTime()))
+							+ " \n \n                  Svp réssayez", "Erreur", JOptionPane.ERROR_MESSAGE);}
+				 else{ if ((!rbDispoBut.isSelected()) && (!rbNotDispo.isSelected())) {
+					JOptionPane.showMessageDialog(btnAjouter,
+							"Un ou plusieurs champs sont vide\n \n                  Svp réssayez", "Erreur",
+							JOptionPane.ERROR_MESSAGE);
 				}
-				model.addRow(row);
-			
-				Service.preference.put(String.format("%1$td/%1$tm/%1$tY", dateDispo.getDate()),(PrefEnum)row[1]);
 
+				  else {if (rbDispoBut.isSelected()) {
+					row[0] = String.format("%1$td/%1$tm/%1$tY", dateDispo.getDate());
+					row[1] = PrefEnum.dispo_but;
+					model.addRow(row);
+					Service.preference.put(String.format("%1$td/%1$tm/%1$tY", dateDispo.getDate()), (PrefEnum) row[1]);
+				} else {if (rbNotDispo.isSelected()) {
+					row[0] = String.format("%1$td/%1$tm/%1$tY", dateDispo.getDate());
+					row[1] = PrefEnum.not_dispo;
+					model.addRow(row);
+					Service.preference.put(String.format("%1$td/%1$tm/%1$tY", dateDispo.getDate()), (PrefEnum) row[1]);
+				}}}}
 			}
 		});
-		
 		// boutton supprimer
 
-				JButton btnSupprimerMembre = new JButton("Supprimer");
-				btnSupprimerMembre.setBounds(294, 210, 95, 23);
-				contentPane.add(btnSupprimerMembre);
+		JButton btnSupprimerMembre = new JButton("Supprimer");
+		btnSupprimerMembre.setBounds(294, 210, 95, 23);
+		contentPane.add(btnSupprimerMembre);
 
-				btnSupprimerMembre.addActionListener(new ActionListener() {
+		btnSupprimerMembre.addActionListener(new ActionListener() {
 
-					public void actionPerformed(ActionEvent e) {
+			public void actionPerformed(ActionEvent e) {
 
-						int indice = table1.getSelectedRow();
-						if (indice >= 0) {
-							model.removeRow(indice);
-							//fonction pour supprimer disponibilité
-							Service.deletedisponiblity(row);
-						} else {
-							System.out.println("Delete Error");
-						}
-					}
-				});
+				int indice = table1.getSelectedRow();
+				if (indice >= 0) {
+					model.removeRow(indice);
+					// fonction pour supprimer disponibilité
+					Service.deletedisponiblity(row);
+				} else {
+					System.out.println("Delete Error");
+				}
+			}
+		});
 
 		// bouton valider
 
@@ -125,7 +146,7 @@ public class Disponibilite extends JFrame {
 		btnValider.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
-			Service.docteurs.get(MembresDeGarde.table.getSelectedRow()).setPreference(Service.preference);
+				Service.docteurs.get(MembresDeGarde.table.getSelectedRow()).setPreference(Service.preference);
 				setVisible(false);
 			}
 
@@ -133,8 +154,6 @@ public class Disponibilite extends JFrame {
 
 	}
 
-	// preference set,get
-
-	
+	// preference set,get dans la classe Docteur
 
 }

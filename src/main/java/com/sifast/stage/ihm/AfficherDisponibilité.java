@@ -9,6 +9,7 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JTable;
 
+import com.sifast.stage.controller.Service;
 import com.sifast.stage.ihm.Disponibilite;
 
 public class AfficherDisponibilité extends DefaultCellEditor {
@@ -35,6 +36,7 @@ public class AfficherDisponibilité extends DefaultCellEditor {
 		if (isSelected) {
 			button.setForeground(table.getSelectionForeground());
 			button.setBackground(table.getSelectionBackground());
+
 		} else {
 			button.setForeground(table.getForeground());
 			button.setBackground(table.getBackground());
@@ -49,9 +51,12 @@ public class AfficherDisponibilité extends DefaultCellEditor {
 
 		if (isPushed) {
 			Disponibilite frame = new Disponibilite();
-			frame.setTitle("Disponibilité");
+			//frame.setTitle("Disponibilité");
 			frame.setVisible(true);
 			frame.setLocationRelativeTo(null);
+			
+//		 for (int i = 0; i < Disponibilite.table.getRowCount(); i++)
+//		{Service.docteurs.put(Disponibilite.table.getSelectedRow()).setPreference(Service.preference);}
 
 		}
 		isPushed = false;
