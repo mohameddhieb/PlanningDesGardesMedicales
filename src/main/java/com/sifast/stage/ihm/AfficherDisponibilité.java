@@ -9,7 +9,6 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JTable;
 
-import com.sifast.stage.controller.Service;
 import com.sifast.stage.ihm.Disponibilite;
 
 public class AfficherDisponibilité extends DefaultCellEditor {
@@ -51,7 +50,6 @@ public class AfficherDisponibilité extends DefaultCellEditor {
 
 		if (isPushed) {
 			Disponibilite frame = new Disponibilite();
-			//frame.setTitle("Disponibilité");
 			frame.setVisible(true);
 			frame.setLocationRelativeTo(null);
 			

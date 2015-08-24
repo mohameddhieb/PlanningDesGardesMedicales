@@ -24,6 +24,7 @@ public class AjouterPlanning extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField textField;
+	static private AjouterPlanning frame1;
 	public static JDateChooser dateF;
 	public static JDateChooser dateD;
 
@@ -33,7 +34,7 @@ public class AjouterPlanning extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					AjouterPlanning frame1 = new AjouterPlanning();
+					 frame1= new AjouterPlanning();
 					frame1.setVisible(true);
 					frame1.setSize(600, 600);
 					frame1.setLocationRelativeTo(null);
@@ -114,9 +115,13 @@ public class AjouterPlanning extends JFrame {
 		contentPane.add(butAjouter);
 
 		butAjouter.addActionListener(new ActionListener() {
+			@SuppressWarnings("deprecation")
 			public void actionPerformed(ActionEvent e) {
 				
-		
+				String d1=dateD.getDate().getYear()+""+dateD.getDate().getMonth()+dateD.getDate().getDay();
+				String d2=dateF.getDate().getYear()+""+dateF.getDate().getMonth()+dateF.getDate().getDay();
+				System.out.println(d1);
+				System.out.println(d2);
 
 				if ((textField.getText().isEmpty()) || (dateD.getDate()==null) || (dateF.getDate()==null)) {
 					JOptionPane.showMessageDialog(null, "Un ou plusieurs champs sont vide\n \n                  Svp réssayez", "Erreur",
@@ -126,7 +131,7 @@ public class AjouterPlanning extends JFrame {
 				
 				else{
 					
-					if (dateD.getDate().getTime() == dateF.getDate().getTime()){
+					if (d1.equals(d2)){
 				JOptionPane.showMessageDialog(butAjouter, "Choisissez une autre date\n \n                  Svp réssayez", "Erreur",
 						JOptionPane.ERROR_MESSAGE);	}
 				else{
@@ -144,7 +149,9 @@ public class AjouterPlanning extends JFrame {
 					frame.setSize(600, 600);
 					frame.setLocationRelativeTo(null);
 					frame.setTitle("Membres de garde");
-					frame.setVisible(true);}
+					frame.setVisible(true);
+					frame1.dispose();
+					}
 			
 				    else {
 					JOptionPane.showMessageDialog(null, "La date de fin doit etre situé aprés la date début\n \n                  Svp réssayez", "Erreur",

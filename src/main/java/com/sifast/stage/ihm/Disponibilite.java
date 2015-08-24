@@ -50,7 +50,7 @@ public class Disponibilite extends JFrame {
 		// Nom docteur
 
 		JLabel lblNomDuDocteur = new JLabel(
-				MembresDeGarde.table.getValueAt(MembresDeGarde.table.getSelectedRow(),0).toString());
+				MembresDeGarde.table.getValueAt(MembresDeGarde.table.getSelectedRow(), 0).toString());
 		lblNomDuDocteur.setBounds(235, 33, 131, 14);
 		contentPane.add(lblNomDuDocteur);
 
@@ -76,33 +76,28 @@ public class Disponibilite extends JFrame {
 		// table (affichage de disponibilité)
 
 		Object[][] data = null;
-		
 
-		 
 		String[] colomname = { "Date", "Disponibilité" };
 		model = new DefaultTableModel(data, colomname);
 		table1 = new JTable(model);
 		table1.setBackground(UIManager.getColor("EditorPane.selectionBackground"));
 		table1.setForeground(Color.black);
 		table1.setRowHeight(30);
-		
-		
-		//Affichage des données existantes
+
+		// Affichage des données existantes
 		HashMap<String, PrefEnum> tmpPref = Service.docteurs.get(MembresDeGarde.table.getSelectedRow()).getPreference();
-		
-		 for (Entry<String, PrefEnum> entry : tmpPref.entrySet()) {
-	             
-			 System.out.println(entry.getKey());
-			 System.out.println(entry.getValue());
-               
-                Object[] row = new Object[2];
-   			    row[0] = entry.getKey();
-   				row[1] = entry.getValue();
-   				model.addRow(row);
-             
-	        }
-		 
- 
+
+		for (Entry<String, PrefEnum> entry : tmpPref.entrySet()) {
+
+			System.out.println(entry.getKey());
+			System.out.println(entry.getValue());
+
+			Object[] row = new Object[2];
+			row[0] = entry.getKey();
+			row[1] = entry.getValue();
+			model.addRow(row);
+
+		}
 
 		// JScrollPane
 		JScrollPane pane = new JScrollPane(table1);
@@ -117,14 +112,20 @@ public class Disponibilite extends JFrame {
 		contentPane.add(btnAjouter);
 		Object[] row = new Object[2];
 		btnAjouter.addActionListener(new ActionListener() {
+			@SuppressWarnings("deprecation")
 			public void actionPerformed(ActionEvent e) {
-				
-			//	System.out.println(dateDispo.getDate().getTime() +" *** "+ AjouterPlanning.dateD.getDate().getTime());
-				if ((dateDispo.getDate().getTime() <AjouterPlanning.dateD.getDate().getTime())
-						||
-						(dateDispo.getDate().getTime() > AjouterPlanning.dateF.getDate().getTime())
-						) 
-				{
+
+				String d1 = AjouterPlanning.dateD.getDate().getYear() + "" + AjouterPlanning.dateD.getDate().getMonth()
+						+ AjouterPlanning.dateD.getDate().getDay();
+				String d2 = AjouterPlanning.dateF.getDate().getYear() + "" + AjouterPlanning.dateF.getDate().getMonth()
+						+ AjouterPlanning.dateF.getDate().getDay();
+				String d3 = dateDispo.getDate().getYear() + "" + dateDispo.getDate().getMonth()
+						+ dateDispo.getDate().getDay();
+				int d11 = Integer.parseInt(d1);
+				int d22 = Integer.parseInt(d2);
+				int d33 = Integer.parseInt(d3);
+
+				if (d33 < d11 || d33 > d22) {
 					JOptionPane
 							.showMessageDialog(btnAjouter,
 									"La date doit se situer entre le  "
@@ -133,33 +134,38 @@ public class Disponibilite extends JFrame {
 											+ " et le "
 											+ (String.format("%1$td/%1$tm/%1$tY",
 													AjouterPlanning.dateF.getDate().getTime()))
-							+ " \n \n                  Svp réssayez", "Erreur", JOptionPane.ERROR_MESSAGE);}
-				
-				
-				
-				 else{
-					 if ((!rbDispoBut.isSelected()) && (!rbNotDispo.isSelected())) {
-						 
-					JOptionPane.showMessageDialog(btnAjouter,
-							"Un ou plusieurs champs sont vide\n \n                  Svp réssayez", "Erreur",
-							JOptionPane.ERROR_MESSAGE);
-				
-					 }
+							+ " \n \n                  Svp réssayez", "Erreur", JOptionPane.ERROR_MESSAGE);
+				}
 
-				 else {
-					  
-					  if (rbDispoBut.isSelected()) {
-					row[0] = String.format("%1$td/%1$tm/%1$tY", dateDispo.getDate());
-					row[1] = PrefEnum.dispo_but;
-					model.addRow(row);
-					Service.preference.put(String.format("%1$td/%1$tm/%1$tY", dateDispo.getDate()), (PrefEnum) row[1]);
-					
-					  } else {if (rbNotDispo.isSelected()) {
-					row[0] = String.format("%1$td/%1$tm/%1$tY", dateDispo.getDate());
-					row[1] = PrefEnum.not_dispo;
-					model.addRow(row);
-					Service.preference.put(String.format("%1$td/%1$tm/%1$tY", dateDispo.getDate()), (PrefEnum) row[1]);
-				}}}                   }
+				else {
+					if ((!rbDispoBut.isSelected()) && (!rbNotDispo.isSelected())) {
+
+						JOptionPane.showMessageDialog(btnAjouter,
+								"Un ou plusieurs champs sont vide\n \n                  Svp réssayez", "Erreur",
+								JOptionPane.ERROR_MESSAGE);
+
+					}
+
+					else {
+
+						if (rbDispoBut.isSelected()) {
+							row[0] = String.format("%1$td/%1$tm/%1$tY", dateDispo.getDate());
+							row[1] = PrefEnum.dispo_but;
+							model.addRow(row);
+							Service.preference.put(String.format("%1$td/%1$tm/%1$tY", dateDispo.getDate()),
+									(PrefEnum) row[1]);
+
+						} else {
+							if (rbNotDispo.isSelected()) {
+								row[0] = String.format("%1$td/%1$tm/%1$tY", dateDispo.getDate());
+								row[1] = PrefEnum.not_dispo;
+								model.addRow(row);
+								Service.preference.put(String.format("%1$td/%1$tm/%1$tY", dateDispo.getDate()),
+										(PrefEnum) row[1]);
+							}
+						}
+					}
+				}
 			}
 		});
 		// boutton supprimer
@@ -194,7 +200,7 @@ public class Disponibilite extends JFrame {
 
 			public void actionPerformed(ActionEvent e) {
 				Service.docteurs.get(MembresDeGarde.table.getSelectedRow()).setPreference(Service.preference);
-				 
+
 				setVisible(false);
 			}
 
