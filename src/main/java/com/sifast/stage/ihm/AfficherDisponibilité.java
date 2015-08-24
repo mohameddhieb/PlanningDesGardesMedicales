@@ -32,14 +32,14 @@ public class AfficherDisponibilité extends DefaultCellEditor {
 		});
 	}
 
-	public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
+	public Component getTableCellEditorComponent(JTable table1, Object value, boolean isSelected, int row, int column) {
 		if (isSelected) {
-			button.setForeground(table.getSelectionForeground());
-			button.setBackground(table.getSelectionBackground());
+			button.setForeground(table1.getSelectionForeground());
+			button.setBackground(table1.getSelectionBackground());
 
 		} else {
-			button.setForeground(table.getForeground());
-			button.setBackground(table.getBackground());
+			button.setForeground(table1.getForeground());
+			button.setBackground(table1.getBackground());
 		}
 		label = (value == null) ? "afficher disponibilité" : value.toString();
 		button.setText(label);
@@ -55,9 +55,7 @@ public class AfficherDisponibilité extends DefaultCellEditor {
 			frame.setVisible(true);
 			frame.setLocationRelativeTo(null);
 			
-//		 for (int i = 0; i < Disponibilite.table.getRowCount(); i++)
-//		{Service.docteurs.put(Disponibilite.table.getSelectedRow()).setPreference(Service.preference);}
-
+		
 		}
 		isPushed = false;
 		return new String(label);

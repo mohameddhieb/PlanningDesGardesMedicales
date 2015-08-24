@@ -1,8 +1,12 @@
 package com.sifast.stage.ihm;
 
 import java.awt.Color;
+import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.HashMap;
+import java.util.Map.Entry;
+
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -12,6 +16,7 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
@@ -25,7 +30,7 @@ public class Disponibilite extends JFrame {
 	private JPanel contentPane;
 	private ButtonGroup buttonGroup = new ButtonGroup();
 	private static DefaultTableModel model;
-	static JTable table1;
+	public static JTable table1;
 	// private HashMap<String, PrefEnum> preference = new
 	// HashMap<String,PrefEnum>();
 
@@ -37,6 +42,7 @@ public class Disponibilite extends JFrame {
 		this.setTitle("Disponibilité");
 		setBounds(100, 100, 600, 600);
 		contentPane = new JPanel();
+		contentPane.setBackground(new Color(176, 224, 230));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
@@ -44,22 +50,25 @@ public class Disponibilite extends JFrame {
 		// Nom docteur
 
 		JLabel lblNomDuDocteur = new JLabel(
-				MembresDeGarde.table.getValueAt(MembresDeGarde.table.getSelectedRow(), 0).toString());
+				MembresDeGarde.table.getValueAt(MembresDeGarde.table.getSelectedRow(),0).toString());
 		lblNomDuDocteur.setBounds(235, 33, 131, 14);
 		contentPane.add(lblNomDuDocteur);
 
 		// choisir la date
 
 		JDateChooser dateDispo = new JDateChooser();
+		dateDispo.getCalendarButton().setBackground(SystemColor.activeCaption);
 		dateDispo.setBounds(221, 89, 105, 20);
 		contentPane.add(dateDispo);
 
 		JRadioButton rbDispoBut = new JRadioButton("dispo_but");
+		rbDispoBut.setBackground(new Color(176, 224, 230));
 		buttonGroup.add(rbDispoBut);
 		rbDispoBut.setBounds(159, 149, 87, 23);
 		contentPane.add(rbDispoBut);
 
 		JRadioButton rbNotDispo = new JRadioButton("Not_dispo");
+		rbNotDispo.setBackground(new Color(176, 224, 230));
 		buttonGroup.add(rbNotDispo);
 		rbNotDispo.setBounds(331, 149, 95, 23);
 		contentPane.add(rbNotDispo);
@@ -67,12 +76,33 @@ public class Disponibilite extends JFrame {
 		// table (affichage de disponibilité)
 
 		Object[][] data = null;
+		
+
+		 
 		String[] colomname = { "Date", "Disponibilité" };
 		model = new DefaultTableModel(data, colomname);
 		table1 = new JTable(model);
-		table1.setBackground(Color.LIGHT_GRAY);
+		table1.setBackground(UIManager.getColor("EditorPane.selectionBackground"));
 		table1.setForeground(Color.black);
 		table1.setRowHeight(30);
+		
+		
+		//Affichage des données existantes
+		HashMap<String, PrefEnum> tmpPref = Service.docteurs.get(MembresDeGarde.table.getSelectedRow()).getPreference();
+		
+		 for (Entry<String, PrefEnum> entry : tmpPref.entrySet()) {
+	             
+			 System.out.println(entry.getKey());
+			 System.out.println(entry.getValue());
+               
+                Object[] row = new Object[2];
+   			    row[0] = entry.getKey();
+   				row[1] = entry.getValue();
+   				model.addRow(row);
+             
+	        }
+		 
+ 
 
 		// JScrollPane
 		JScrollPane pane = new JScrollPane(table1);
@@ -82,13 +112,19 @@ public class Disponibilite extends JFrame {
 		// bouton ajouter
 
 		JButton btnAjouter = new JButton("Ajouter");
+		btnAjouter.setBackground(UIManager.getColor("EditorPane.selectionBackground"));
 		btnAjouter.setBounds(175, 210, 89, 23);
 		contentPane.add(btnAjouter);
 		Object[] row = new Object[2];
 		btnAjouter.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (dateDispo.getDate().getTime() < (AjouterPlanning.dateD.getDate().getTime())
-						|| (dateDispo.getDate().getTime() > AjouterPlanning.dateF.getDate().getTime())) {
+				
+			//	System.out.println(dateDispo.getDate().getTime() +" *** "+ AjouterPlanning.dateD.getDate().getTime());
+				if ((dateDispo.getDate().getTime() <AjouterPlanning.dateD.getDate().getTime())
+						||
+						(dateDispo.getDate().getTime() > AjouterPlanning.dateF.getDate().getTime())
+						) 
+				{
 					JOptionPane
 							.showMessageDialog(btnAjouter,
 									"La date doit se situer entre le  "
@@ -98,28 +134,38 @@ public class Disponibilite extends JFrame {
 											+ (String.format("%1$td/%1$tm/%1$tY",
 													AjouterPlanning.dateF.getDate().getTime()))
 							+ " \n \n                  Svp réssayez", "Erreur", JOptionPane.ERROR_MESSAGE);}
-				 else{ if ((!rbDispoBut.isSelected()) && (!rbNotDispo.isSelected())) {
+				
+				
+				
+				 else{
+					 if ((!rbDispoBut.isSelected()) && (!rbNotDispo.isSelected())) {
+						 
 					JOptionPane.showMessageDialog(btnAjouter,
 							"Un ou plusieurs champs sont vide\n \n                  Svp réssayez", "Erreur",
 							JOptionPane.ERROR_MESSAGE);
-				}
+				
+					 }
 
-				  else {if (rbDispoBut.isSelected()) {
+				 else {
+					  
+					  if (rbDispoBut.isSelected()) {
 					row[0] = String.format("%1$td/%1$tm/%1$tY", dateDispo.getDate());
 					row[1] = PrefEnum.dispo_but;
 					model.addRow(row);
 					Service.preference.put(String.format("%1$td/%1$tm/%1$tY", dateDispo.getDate()), (PrefEnum) row[1]);
-				} else {if (rbNotDispo.isSelected()) {
+					
+					  } else {if (rbNotDispo.isSelected()) {
 					row[0] = String.format("%1$td/%1$tm/%1$tY", dateDispo.getDate());
 					row[1] = PrefEnum.not_dispo;
 					model.addRow(row);
 					Service.preference.put(String.format("%1$td/%1$tm/%1$tY", dateDispo.getDate()), (PrefEnum) row[1]);
-				}}}}
+				}}}                   }
 			}
 		});
 		// boutton supprimer
 
 		JButton btnSupprimerMembre = new JButton("Supprimer");
+		btnSupprimerMembre.setBackground(UIManager.getColor("EditorPane.selectionBackground"));
 		btnSupprimerMembre.setBounds(294, 210, 95, 23);
 		contentPane.add(btnSupprimerMembre);
 
@@ -141,12 +187,14 @@ public class Disponibilite extends JFrame {
 		// bouton valider
 
 		JButton btnValider = new JButton("valider ");
+		btnValider.setBackground(UIManager.getColor("EditorPane.selectionBackground"));
 		btnValider.setBounds(235, 506, 89, 23);
 		contentPane.add(btnValider);
 		btnValider.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
 				Service.docteurs.get(MembresDeGarde.table.getSelectedRow()).setPreference(Service.preference);
+				 
 				setVisible(false);
 			}
 

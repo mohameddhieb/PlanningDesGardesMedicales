@@ -84,13 +84,9 @@ public class PdfClass {
 						.exec("rundll32 url.dll,FileProtocolHandler F:\\work\\projects\\PlanningDesGardesMedicales-master\\planning.pdf");
 				p.waitFor();
 
-			} else {
-
-				System.out.println("File is not exists");
-
-			}
-
-			System.out.println("Done");
+			} 
+			
+			System.out.println("Le Planning a été crée avec succès");
 
 		} catch (Exception ex) {
 			ex.printStackTrace();

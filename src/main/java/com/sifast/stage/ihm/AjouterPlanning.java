@@ -15,6 +15,9 @@ import javax.swing.border.EmptyBorder;
 
 import com.sifast.stage.controller.Service;
 import com.toedter.calendar.JDateChooser;
+import java.awt.Color;
+import javax.swing.UIManager;
+import java.awt.SystemColor;
 
 public class AjouterPlanning extends JFrame {
 
@@ -30,11 +33,11 @@ public class AjouterPlanning extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					AjouterPlanning frame = new AjouterPlanning();
-					frame.setVisible(true);
-					frame.setSize(600, 600);
-					frame.setLocationRelativeTo(null);
-					frame.setTitle("Ajouter Planning");
+					AjouterPlanning frame1 = new AjouterPlanning();
+					frame1.setVisible(true);
+					frame1.setSize(600, 600);
+					frame1.setLocationRelativeTo(null);
+					frame1.setTitle("Ajouter Planning");
 					
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -50,6 +53,7 @@ public class AjouterPlanning extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 600, 600);
 		contentPane = new JPanel();
+		contentPane.setBackground(new Color(176, 224, 230));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
@@ -79,6 +83,12 @@ public class AjouterPlanning extends JFrame {
 		contentPane.add(lblDateDeDbut);
 
 		dateF = new JDateChooser();
+		dateF.getCalendarButton().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		dateF.getCalendarButton().setForeground(new Color(0, 0, 0));
+		dateF.getCalendarButton().setBackground(SystemColor.activeCaption);
 		dateF.setDateFormatString("dd-MM-yyyy");
 		dateF.setBounds(310, 287, 97, 20);
 		contentPane.add(dateF);
@@ -91,6 +101,7 @@ public class AjouterPlanning extends JFrame {
 		contentPane.add(lblDateDeFin);
 
 		dateD = new JDateChooser();
+		dateD.getCalendarButton().setBackground(SystemColor.activeCaption);
 		dateD.setDateFormatString("dd-MM-yyyy");
 		dateD.setBounds(310, 228, 97, 20);
 		contentPane.add(dateD);
@@ -98,6 +109,7 @@ public class AjouterPlanning extends JFrame {
 		// bouton ajouter
 
 		JButton butAjouter = new JButton("Ajouter");
+		butAjouter.setBackground(UIManager.getColor("EditorPane.selectionBackground"));
 		butAjouter.setBounds(197, 398, 200, 50);
 		contentPane.add(butAjouter);
 
@@ -111,9 +123,16 @@ public class AjouterPlanning extends JFrame {
 							JOptionPane.ERROR_MESSAGE);
 
 				}
-
-				else
-				{	if ((!(textField.getText().isEmpty())) && (!(dateD.getDate()==null)) && (!(dateF.getDate()==null))
+				
+				else{
+					
+					if (dateD.getDate().getTime() == dateF.getDate().getTime()){
+				JOptionPane.showMessageDialog(butAjouter, "Choisissez une autre date\n \n                  Svp réssayez", "Erreur",
+						JOptionPane.ERROR_MESSAGE);	}
+				else{
+					
+					if ((!(textField.getText().isEmpty())) && (!(dateD.getDate()==null)) && (!(dateF.getDate()==null))
+				
 						&& (dateD.getDate().getTime() < dateF.getDate().getTime())) {
 
 //					plan.setDateDebut(dateD);
@@ -125,13 +144,15 @@ public class AjouterPlanning extends JFrame {
 					frame.setSize(600, 600);
 					frame.setLocationRelativeTo(null);
 					frame.setTitle("Membres de garde");
-					frame.setVisible(true);
-				} else {
+					frame.setVisible(true);}
+			
+				    else {
 					JOptionPane.showMessageDialog(null, "La date de fin doit etre situé aprés la date début\n \n                  Svp réssayez", "Erreur",
 							JOptionPane.ERROR_MESSAGE);
 
-				}}
-			}
+				}   }       
+				                        
+			}}
 
 		});
 

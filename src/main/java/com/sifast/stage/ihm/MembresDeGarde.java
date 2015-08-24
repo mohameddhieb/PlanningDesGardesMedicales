@@ -18,6 +18,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
+import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
@@ -41,6 +42,7 @@ public class MembresDeGarde extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 600, 600);
 		contentPane = new JPanel();
+		contentPane.setBackground((new Color(176, 224, 230)));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
@@ -48,7 +50,7 @@ public class MembresDeGarde extends JFrame {
 		// text
 
 		JTextArea textArea_1 = new JTextArea(Service.plan.getNomPlanning());
-		textArea_1.setBackground(Color.LIGHT_GRAY);
+		textArea_1.setBackground(new Color(176, 224, 230));
 		textArea_1.setBounds(213, 32, 156, 46);
 		textArea_1.setFont(new Font("Myanmar Text", Font.ITALIC, 20));
 		textArea_1.setEditable(false);
@@ -57,7 +59,7 @@ public class MembresDeGarde extends JFrame {
 		JTextArea textArea = new JTextArea(
 				"Membre de garde du " + String.format("%1$td/%1$tm/%1$tY", Service.plan.getDateDebut().getDate())
 						+ " au " + String.format("%1$td/%1$tm/%1$tY", Service.plan.getDateFin().getDate()));
-		textArea.setBackground(Color.LIGHT_GRAY);
+		textArea.setBackground(new Color(176, 224, 230));
 		textArea.setFont(new Font("Myanmar Text", Font.ITALIC, 20));
 		textArea.setEditable(false);
 		textArea.setBounds(57, 89, 466, 48);
@@ -84,6 +86,7 @@ public class MembresDeGarde extends JFrame {
 		// bouton ajouter
 		Component[] row = new Component[2];
 		JButton btnAdd = new JButton("Ajouter membre");
+		btnAdd.setBackground(UIManager.getColor("EditorPane.selectionBackground"));
 		btnAdd.setFont(new Font("Times New Roman", Font.PLAIN, 17));
 		btnAdd.setBounds(88, 161, 169, 42);
 		contentPane.add(btnAdd);
@@ -108,6 +111,7 @@ public class MembresDeGarde extends JFrame {
 		// boutton supprimer
 
 		JButton btnSupprimerMembre = new JButton("Supprimer membre");
+		btnSupprimerMembre.setBackground((UIManager.getColor("EditorPane.selectionBackground")));
 		btnSupprimerMembre.setFont(new Font("Times New Roman", Font.PLAIN, 17));
 		btnSupprimerMembre.setBounds(321, 161, 169, 42);
 		contentPane.add(btnSupprimerMembre);
@@ -129,6 +133,7 @@ public class MembresDeGarde extends JFrame {
 		// bouton Planning (contient l'algorithme du planning)
 
 		JButton btnPlanning = new JButton("Planning");
+		btnPlanning.setBackground((UIManager.getColor("EditorPane.selectionBackground")));
 		contentPane.add(btnPlanning);
 		btnPlanning.setBounds(259, 503, 98, 34);
 		contentPane.add(btnPlanning);
