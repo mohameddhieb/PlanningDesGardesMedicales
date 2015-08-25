@@ -29,8 +29,7 @@ public class Disponibilite extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private ButtonGroup buttonGroup = new ButtonGroup();
-	private static DefaultTableModel model;
-	public static JTable table1;
+
 	// private HashMap<String, PrefEnum> preference = new
 	// HashMap<String,PrefEnum>();
 
@@ -78,8 +77,8 @@ public class Disponibilite extends JFrame {
 		Object[][] data = null;
 
 		String[] colomname = { "Date", "Disponibilité" };
-		model = new DefaultTableModel(data, colomname);
-		table1 = new JTable(model);
+		 DefaultTableModel model = new DefaultTableModel(data, colomname);
+		JTable table1 = new JTable(model);
 		table1.setBackground(UIManager.getColor("EditorPane.selectionBackground"));
 		table1.setForeground(Color.black);
 		table1.setRowHeight(30);
@@ -115,17 +114,17 @@ public class Disponibilite extends JFrame {
 			@SuppressWarnings("deprecation")
 			public void actionPerformed(ActionEvent e) {
 
-				String d1 = AjouterPlanning.dateD.getDate().getYear() + "" + AjouterPlanning.dateD.getDate().getMonth()
-						+ AjouterPlanning.dateD.getDate().getDay();
-				String d2 = AjouterPlanning.dateF.getDate().getYear() + "" + AjouterPlanning.dateF.getDate().getMonth()
-						+ AjouterPlanning.dateF.getDate().getDay();
-				String d3 = dateDispo.getDate().getYear() + "" + dateDispo.getDate().getMonth()
-						+ dateDispo.getDate().getDay();
-				int d11 = Integer.parseInt(d1);
-				int d22 = Integer.parseInt(d2);
-				int d33 = Integer.parseInt(d3);
+				String dateDebut = AjouterPlanning.dateD.getDate().getYear() + "" + AjouterPlanning.dateD.getDate().getMonth()
+						+ AjouterPlanning.dateD.getDate().getDate();
+				String dateFin = AjouterPlanning.dateF.getDate().getYear() + "" + AjouterPlanning.dateF.getDate().getMonth()
+						+ AjouterPlanning.dateF.getDate().getDate();
+				String dateChoisie = dateDispo.getDate().getYear() + "" + dateDispo.getDate().getMonth()
+						+ dateDispo.getDate().getDate();
+				int dateDebut_int = Integer.parseInt(dateDebut);
+				int dateFin_int = Integer.parseInt(dateFin);
+				int dateChoisie_int = Integer.parseInt(dateChoisie);
 
-				if (d33 < d11 || d33 > d22) {
+				if (dateChoisie_int < dateDebut_int || dateChoisie_int > dateFin_int) {
 					JOptionPane
 							.showMessageDialog(btnAjouter,
 									"La date doit se situer entre le  "

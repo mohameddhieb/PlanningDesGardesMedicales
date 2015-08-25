@@ -23,7 +23,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
-import com.sifast.stage.controller.PdfClass;
+import com.sifast.stage.controller.PdfGenerator;
 import com.sifast.stage.controller.Service;
 
 public class MembresDeGarde extends JFrame {
@@ -33,7 +33,6 @@ public class MembresDeGarde extends JFrame {
 
 	public static ArrayList<Object> dates = new ArrayList<Object>();
 	public static JTable table;
-	private String[] arg;
 	public static Service service;
 
 	public MembresDeGarde() {
@@ -166,10 +165,10 @@ public class MembresDeGarde extends JFrame {
 					// docteurs.get(i).setNom(table.getValueAt(i,0).toString());
 					// }
 
-					service.gererPlanning(table);
-					//
+					service.genererPlanning(table);
+					
 					try {
-						PdfClass.main(arg);
+						PdfGenerator.generatePdfFile();
 					} catch (Exception ex) {
 						Logger.getLogger(MembresDeGarde.class.getName()).log(Level.SEVERE, null, ex);
 					}

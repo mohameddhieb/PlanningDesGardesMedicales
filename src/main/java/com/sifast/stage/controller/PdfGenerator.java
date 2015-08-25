@@ -12,8 +12,9 @@ import com.sifast.stage.model.PrefEnum;
 
 
 
-public class PdfClass {
-	public static void main(String arg[]) throws Exception {
+public class PdfGenerator {
+	
+	public static void generatePdfFile() throws Exception {
 		
 		
 		Document document = new Document();
@@ -76,12 +77,12 @@ public class PdfClass {
 
 			// TODO use relative path instead of absolut path
 			if ((new File(
-					"F:\\work\\projects\\PlanningDesGardesMedicales-master\\planning.pdf"))
+					"planning.pdf"))
 					.exists()) {
 
 				Process p = Runtime
 						.getRuntime()
-						.exec("rundll32 url.dll,FileProtocolHandler F:\\work\\projects\\PlanningDesGardesMedicales-master\\planning.pdf");
+						.exec("rundll32 url.dll,FileProtocolHandler planning.pdf");
 				p.waitFor();
 
 			} 

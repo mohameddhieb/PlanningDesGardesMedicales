@@ -118,12 +118,14 @@ public class AjouterPlanning extends JFrame {
 			@SuppressWarnings("deprecation")
 			public void actionPerformed(ActionEvent e) {
 				
-				String d1=dateD.getDate().getYear()+""+dateD.getDate().getMonth()+dateD.getDate().getDay();
-				String d2=dateF.getDate().getYear()+""+dateF.getDate().getMonth()+dateF.getDate().getDay();
-				System.out.println(d1);
-				System.out.println(d2);
+				String dateDebut1=dateD.getDate().getYear()+""+dateD.getDate().getMonth()+dateD.getDate().getDate();
+				String dateFin1=dateF.getDate().getYear()+""+dateF.getDate().getMonth()+dateF.getDate().getDate();
+				int dateDebut1_int = Integer.parseInt(dateDebut1);
+				int dateFin1_int = Integer.parseInt(dateFin1);
+				System.out.println(dateDebut1_int);
+				System.out.println(dateFin1_int);
 
-				if ((textField.getText().isEmpty()) || (dateD.getDate()==null) || (dateF.getDate()==null)) {
+				if ((textField.getText().isEmpty()) || (dateDebut1==null) || (dateF.getDate()==null)) {
 					JOptionPane.showMessageDialog(null, "Un ou plusieurs champs sont vide\n \n                  Svp réssayez", "Erreur",
 							JOptionPane.ERROR_MESSAGE);
 
@@ -131,14 +133,14 @@ public class AjouterPlanning extends JFrame {
 				
 				else{
 					
-					if (d1.equals(d2)){
-				JOptionPane.showMessageDialog(butAjouter, "Choisissez une autre date\n \n                  Svp réssayez", "Erreur",
+					if (dateDebut1.equals(dateFin1)){
+				JOptionPane.showMessageDialog(butAjouter, "La date de debut doit etre differente de la date de fin\n \n                  Svp réssayez", "Erreur",
 						JOptionPane.ERROR_MESSAGE);	}
 				else{
 					
-					if ((!(textField.getText().isEmpty())) && (!(dateD.getDate()==null)) && (!(dateF.getDate()==null))
+					if ((!(textField.getText().isEmpty())) && (!(dateDebut1==null)) && (!(dateFin1==null))
 				
-						&& (dateD.getDate().getTime() < dateF.getDate().getTime())) {
+						&& (dateDebut1_int < dateFin1_int)) {
 
 //					plan.setDateDebut(dateD);
 //					plan.setDateFin(dateF);

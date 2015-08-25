@@ -11,6 +11,7 @@ import com.sifast.stage.model.PrefEnum;
 import com.toedter.calendar.JDateChooser;
 
 public class Service {
+	
 	public static ArrayList<Docteur> docteurs = new ArrayList<Docteur>();
 	public static PlanningGarde plan = new PlanningGarde();
 	public static HashMap<String, PrefEnum> preference = new HashMap<String, PrefEnum>();
@@ -30,7 +31,7 @@ public class Service {
 	}
 
 	// fonction pour gerer le planning dans MembreDeGarde
-	public ArrayList<Docteur> gererPlanning(JTable table) {
+	public ArrayList<Docteur> genererPlanning(JTable table) {
 
 		for (int i = 0; i < table.getRowCount(); i++) {
 			docteurs.get(i).setNom(table.getValueAt(i,0).toString());
@@ -39,7 +40,7 @@ public class Service {
 	}
 	// fonction pour gerer la disponibilié dans Disponibilite
 
-	public static ArrayList<Docteur> geredisponiblite(JTable table, HashMap<String, PrefEnum> preference) {
+	public static ArrayList<Docteur> gererDisponiblite(JTable table, HashMap<String, PrefEnum> preference) {
 
 		docteurs.get(table.getSelectedRow()).setPreference(preference);
 		return docteurs;
