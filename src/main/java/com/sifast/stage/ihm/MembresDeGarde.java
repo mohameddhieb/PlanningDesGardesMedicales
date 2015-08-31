@@ -34,7 +34,8 @@ public class MembresDeGarde extends JFrame {
 	public static ArrayList<Object> dates = new ArrayList<Object>();
 	public static JTable table;
 	public static Service service;
-
+	
+	
 	public MembresDeGarde() {
 
 		service = new Service();
@@ -139,21 +140,19 @@ public class MembresDeGarde extends JFrame {
 
 		btnPlanning.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
-				// mettre les jours du planning dans une liste dates
-
+				
 				dates.clear();
 				Calendar calendar = Calendar.getInstance();
 				calendar.setTime(Service.plan.getDateDebut().getDate());
 				Calendar calMax = Calendar.getInstance();
 				calMax.setTime(Service.plan.getDateFin().getDate());
 				dates.add(String.format("%1$td/%1$tm/%1$tY", calendar));
-				while (!(String.format("%1$td/%1$tm/%1$tY", calendar)
-						.equals(String.format("%1$td/%1$tm/%1$tY", calMax)))) {
+			while (!(String.format("%1$td/%1$tm/%1$tY", calendar).equals(String.format("%1$td/%1$tm/%1$tY", calMax)))) {
+		
 					calendar.add(Calendar.DATE, 1);
 					dates.add(String.format("%1$td/%1$tm/%1$tY", calendar));
-
-				}
+//					calendar=Calendar.getInstance();
+			}
 				if (table.getValueAt(0, 0) == null)
 					JOptionPane.showMessageDialog(null,
 							"Ajouter au moins un membre \n \n                  Svp réssayez", "Erreur",
@@ -169,6 +168,7 @@ public class MembresDeGarde extends JFrame {
 					
 					try {
 						PdfGenerator.generatePdfFile();
+						
 					} catch (Exception ex) {
 						Logger.getLogger(MembresDeGarde.class.getName()).log(Level.SEVERE, null, ex);
 					}

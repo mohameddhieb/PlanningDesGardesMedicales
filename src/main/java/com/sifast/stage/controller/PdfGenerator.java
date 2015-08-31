@@ -13,11 +13,11 @@ import com.sifast.stage.model.PrefEnum;
 
 
 public class PdfGenerator {
-	
+	public static Document document = new Document();
 	public static void generatePdfFile() throws Exception {
 		
 		
-		Document document = new Document();
+		
 
 		PdfWriter.getInstance(document, new FileOutputStream("planning.pdf"));
 		document.open();
@@ -34,41 +34,52 @@ public class PdfGenerator {
 		
 		Boolean test2 = true;
 		int indice = 0;
-		for (Object elem1 : MembresDeGarde.dates) {
+		Docteur docteur;
+		for (Object elem1 : MembresDeGarde.dates) { //na3mlou test
 			test2 = true;
+			
 			while (test2) {
-				Docteur docteur = Service.docteurs.get(indice % Service.docteurs.size());
+				 docteur = Service.docteurs.get(indice % Service.docteurs.size());
 				if (!(docteur.getPreference().containsKey(elem1))) // champ
 																	// vide=
 																	// dispo
 				{
 					document.add(new Paragraph("Le " + elem1 + ", le docteur:  " + Service.docteurs.get(indice % Service.docteurs.size()).getNom() + " en garde "));
+					System.out.println(	Service.docteurs.get(indice % Service.docteurs.size()).getNom());
 					indice++;
-					break;
-				}
+					test2 = false;
+				}else{
 				if (docteur.getPreference().get(elem1).equals(PrefEnum.not_dispo)) {
 					indice++;
-				}
+				test2 = false;
+				}else
 				if (docteur.getPreference().get(elem1).equals(PrefEnum.dispo_but)) {
 					Boolean test = false;
 					// recherche du docteur disponible
 					for (int i = 0; i < Service.docteurs.size(); i++) {
 						if (!(Service.docteurs.get(i).getPreference().containsKey(elem1))) {
 							document.add(new Paragraph("Le " + elem1 + ", le docteur:  " + Service.docteurs.get(i).getNom() + " en garde "));
+							System.out.println(	Service.docteurs.get(indice % Service.docteurs.size()).getNom());
 							test = true;
 							indice++;
 							test2 = false;
 							break;
 						}
 					}
-					if (!test) {
+				if (!test) {
 						document.add(new Paragraph("Le " + elem1 + ", le docteur: " + Service.docteurs.get(indice % Service.docteurs.size()).getNom() + " en garde "));
-						indice++;
-						break;
+						//affichage docteur
+			//		System.out.println(	Service.docteurs.get(indice % Service.docteurs.size()).getNom());
+					indice++;
+						
+					break;
 					}
 					break;
+				}else {
+					//rien faire
+					
 				}
-			}
+			}}
 		}
 	
 		document.close();
@@ -77,19 +88,21 @@ public class PdfGenerator {
 
 			// TODO use relative path instead of absolut path
 			if ((new File(
-					"planning.pdf"))
+					"F:\\work\\projects\\PlanningDesGardesMedicales\\planning.pdf"))
 					.exists()) {
 
 				Process p = Runtime
 						.getRuntime()
-						.exec("rundll32 url.dll,FileProtocolHandler planning.pdf");
+						.exec("rundll32 url.dll,FileProtocolHandler F:\\work\\projects\\PlanningDesGardesMedicales\\planning.pdf");
 				p.waitFor();
 
 			} 
 			
 			System.out.println("Le Planning a été crée avec succès");
+			document.close();
 
 		} catch (Exception ex) {
+			
 			ex.printStackTrace();
 		}
 

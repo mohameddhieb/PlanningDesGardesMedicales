@@ -114,7 +114,7 @@ public class Disponibilite extends JFrame {
 			@SuppressWarnings("deprecation")
 			public void actionPerformed(ActionEvent e) {
 
-				String dateDebut = AjouterPlanning.dateD.getDate().getYear() + "" + AjouterPlanning.dateD.getDate().getMonth()
+				String dateDebut = AjouterPlanning.dateD.getDate().getYear() + ""+ AjouterPlanning.dateD.getDate().getMonth()
 						+ AjouterPlanning.dateD.getDate().getDate();
 				String dateFin = AjouterPlanning.dateF.getDate().getYear() + "" + AjouterPlanning.dateF.getDate().getMonth()
 						+ AjouterPlanning.dateF.getDate().getDate();
